@@ -1,0 +1,56 @@
+{
+  "name": "my-new-app",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "my-new-app/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/my-new-app",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "my-new-app/src/main.ts",
+        "tsConfig": "my-new-app/tsconfig.app.json",
+        "assets": ["my-new-app/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "my-new-app:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "my-new-app:build:development"
+        },
+        "production": {
+          "buildTarget": "my-new-app:build:production"
+        }
+      }
+    }
+  }
+}
